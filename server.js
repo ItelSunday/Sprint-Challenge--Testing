@@ -3,7 +3,7 @@ const server = express();
 
 server.use(express.json());
 
-let count = 3;
+
 const games = [
     {
         title:'Defense Of The Ancients - DOTA',
@@ -21,7 +21,7 @@ const games = [
         id: 3
     },
 ];
-
+let count = games.length;
 
 server.get('/', (req, res) => {
     res.send('<h1>Sanity Check!</h1>');
@@ -32,15 +32,16 @@ server.get('/games', (req, res) => {
 });
 
 server.get('/games/:id', (req, res) => {
-    const id = req.params.id;
+    const id  = req.params.id;
     const selectGame = games.find(game => game.id == id);
-
+   
     if (selectGame) {
-        res.status(200).json(games);
+        res.status(200).json(selectGame);
     } else {
         res.status(404).json({message: 'contents not found'});
     }
 });
+
 
 server.post('/games', (req, res) => {
 const { title } = req.body;
@@ -53,6 +54,13 @@ const { title } = req.body;
   count++;
   res.status(201).json(games);
 });
+
+// server.delete('/games/:id', (req, res) => {
+//     const id = req.params;
+
+//     const game = games.filter(game.id != id);
+//     res.json(game);
+// });
 
 
 
